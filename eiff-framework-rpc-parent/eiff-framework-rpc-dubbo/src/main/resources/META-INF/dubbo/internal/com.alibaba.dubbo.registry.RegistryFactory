@@ -1,0 +1,3 @@
+#green=GreenRegistryFactory
+#blue=BlueRegistryFactory
+zookeeperRegistryFactoryWrapper=com.eiff.framework.rpc.registry.BaseZookeeperRegistryFactory

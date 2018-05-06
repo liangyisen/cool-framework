@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:id-generator.properties"/>
+
+    <bean id="poolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig"/>
+
+    <bean id="redisClusterIdGenerator" class="com.eiff.framework.idgen.redis.RedisClusterIdGenerator">
+        <constructor-arg index="0">
+            <value>${redis.clusterNodes}</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>${redis.timeout}</value>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <value>${redis.timeout}</value>
+        </constructor-arg>
+        <constructor-arg index="3">
+            <value>${redis.maxAttempts:5}</value>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <value>${redis.password}</value>
+        </constructor-arg>
+        <constructor-arg index="5" ref="poolConfig"/>
+        <constructor-arg index="6">
+            <value>${redis.module}</value>
+        </constructor-arg>
+        <constructor-arg index="7">
+            <value>${redis.preFetchCount}</value>
+        </constructor-arg>
+        <constructor-arg index="8">
+            <value>${redis.idLen}</value>
+        </constructor-arg>
+    </bean>
+
+</beans>

@@ -1,0 +1,21 @@
+<aspectj>
+	<aspects>
+		<weaver options="-warn:none -Xlint:ignore">
+    	</weaver>
+    	<!-- 
+		<aspect name="HadesAspect" />
+ 		-->
+ 		
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.AbstractHttpClientAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.AbstractPooledConnAdapterAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.BasicHttpClientConnectionManagerAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.CloseableHttpClientAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.DefaultHttpRequestRetryHandlerAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.HttpRequestExecutorAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.ManagedClientConnectionImplAspect" />
+		<aspect name="com.eiff.framework.log.client.aspect.aj.httpclient.PoolingHttpClientConnectionManagerAspect" />
+		
+		<aspect name="com.eiff.framework.log.client.aspect.aj.bean.ServiceBeanAspect" />
+	</aspects>
+</aspectj>
+

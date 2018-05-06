@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/cache   
+  	http://www.springframework.org/schema/cache/spring-cache-4.2.xsd">
+
+    <context:property-placeholder location="classpath:hades-test.properties"/>
+
+    <cache:annotation-driven cache-manager="cacheManager"/>
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig" >
+        <property name="testOnBorrow" value="${redis.testOnBorrow:false}" />
+        <property name="testOnReturn" value="${redis.testOnReturn:false}" />
+        <property name="maxTotal" value="${redis.maxTotal:8}" />
+        <property name="maxIdle" value="${redis.maxIdle:8}" />
+        <property name="minIdle" value="${redis.minIdle:0}" />
+    </bean>
+
+    <bean id="hadesClient" class="com.eiff.framework.cache.redis.client.HadesClient">
+        <constructor-arg index="0">
+            <value>${redis.clusterNodes}</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>${redis.timeout}</value>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <value>${redis.timeout}</value>
+        </constructor-arg>
+        <constructor-arg index="3">
+            <value>${redis.maxAttempts:5}</value>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <value>${redis.password}</value>
+        </constructor-arg>
+        <constructor-arg index="5" ref="poolConfig"/>
+        <constructor-arg index="6">
+            <value>${hades.module}</value>
+        </constructor-arg>
+        <constructor-arg index="7">
+            <list/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="propertySource" class="org.springframework.core.env.MapPropertySource" >
+        <constructor-arg index="0">
+            <value>RedisClusterConfiguration</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <map>
+                <entry key="spring.redis.cluster.nodes" value="${redis.clusterNodes}" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <constructor-arg index="0" ref="propertySource" />
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg index="0" ref="redisClusterConfiguration"/>
+        <constructor-arg index="1" ref="poolConfig"/>
+        <property name="timeout" value="${redis.timeout}"/>
+        <property name="password" value="${redis.password}"/>
+    </bean>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+        <constructor-arg index="0" ref="redisTemplate"/>
+    </bean>
+
+    <bean id="prefixKeyGenerator" class="com.eiff.framework.cache.redis.spring.PrefixKeyGenerator">
+        <constructor-arg index="0">
+            <value>${hades.module}</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="accountServiceBean" class="com.eiff.framework.cache.redis.cache.AccountService"/>
+
+    <bean id="twoLevelCacheTemplate" class="com.eiff.framework.cache.redis.spring.TwoLevelCacheTemplate" >
+        <property name="module" value="${cache.module}" />
+        <property name="localEnabled" value="${cache.localEnabled}" />
+        <property name="localMaxHeapSize" value="${cache.localMaxHeapSize}" />
+        <property name="localTimeToLiveSeconds" value="${cache.localTimeToLiveSeconds}" />
+        <property name="localTimeToIdleSeconds" value="${cache.localTimeToIdleSeconds}" />
+        <property name="redisTemplate" ref="redisTemplate" />
+    </bean>
+</beans>

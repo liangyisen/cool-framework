@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/jdbc
+	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-lazy-init="false">
+
+	<bean id="hfsClient" class="com.eiff.framework.fs.client.HfsClient"
+		scope="singleton">
+		<constructor-arg index="0">
+			<value>15000</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>30000</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>utf-8</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>192.168.56.103:22122</value>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>8080</value>
+		</constructor-arg>
+		<constructor-arg index="5">
+			<value>false</value>
+		</constructor-arg>
+		<property name="antiStealKey" value="FastDFS1234567890"/>
+		
+		<property name="storageReadWritePoolConfig" ref="storageReadWritePoolConfig"/>
+		<property name="trackerPoolConfig" ref="trackerPoolConfig"/>
+	</bean>
+	
+	
+	<bean id="storageReadWritePoolConfig" class="com.eiff.framework.fs.fastdfs.pool.conf.BasePoolConfig">
+		<property name="maxTotalPerKey" value="5" />
+		<property name="maxIdlePerKey" value="1" />
+		<property name="maxWaitMillis" value="1000" />
+		<property name="poolName" value="StoragePool" />
+	</bean>
+	
+	<bean id="trackerPoolConfig" class="com.eiff.framework.fs.fastdfs.pool.conf.BasePoolConfig">
+		<property name="maxTotalPerKey" value="5" />
+		<property name="maxIdlePerKey" value="1" />
+		<property name="maxWaitMillis" value="1000" />
+		<property name="poolName" value="TrackerPool" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:redisson="http://redisson.org/schema/redisson"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+  	http://redisson.org/schema/redisson
+    http://redisson.org/schema/redisson/redisson.xsd">
+
+    <context:property-placeholder location="classpath:hades-test.properties"/>
+
+    <bean id="codec" class="org.redisson.codec.SerializationCodec"/>
+
+    <bean id="redisConcurrentLock" class="com.eiff.framework.concurrent.redis.lock.RedisConcurrentLock">
+        <constructor-arg index="0">
+            <value>${cache.addresses}</value>
+        </constructor-arg>
+        <constructor-arg index="1" ref="codec"/>
+        <constructor-arg index="2">
+            <value>${cache.scanInterval}</value>
+        </constructor-arg>
+        <constructor-arg index="3">
+            <value>${cache.retryInterval}</value>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <value>${cache.password}</value>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <value>${cache.timeout}</value>
+        </constructor-arg>
+        <constructor-arg index="6">
+            <value>${cache.pingTimeout}</value>
+        </constructor-arg>
+        <constructor-arg index="7">
+            <value>${cache.connectTimeout}</value>
+        </constructor-arg>
+        <constructor-arg index="8">
+            <value>${cache.reconnectionTimeout}</value>
+        </constructor-arg>
+        <constructor-arg index="9">
+            <value>${cache.idleConnectionTimeout}</value>
+        </constructor-arg>
+        <constructor-arg index="10">
+            <value>${cache.masterConnectionPoolSize}</value>
+        </constructor-arg>
+        <constructor-arg index="11">
+            <value>${cache.slaveConnectionPoolSize}</value>
+        </constructor-arg>
+        <constructor-arg index="12">
+            <value>${cache.subscriptionConnectionPoolSize}</value>
+        </constructor-arg>
+    </bean>
+</beans>

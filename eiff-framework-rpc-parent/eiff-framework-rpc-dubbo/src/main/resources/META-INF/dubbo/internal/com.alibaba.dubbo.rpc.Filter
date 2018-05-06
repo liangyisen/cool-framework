@@ -1,0 +1,3 @@
+dubboConsumerFilter2=com.eiff.framework.rpc.filter.hystrix.HystrixConsumerFilter
+dubboConsumerFilter3=com.eiff.framework.rpc.filter.DubboConsumerFilter
+dubboProviderFilter=com.eiff.framework.rpc.filter.DubboProviderFilter
