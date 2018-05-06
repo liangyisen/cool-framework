@@ -67,12 +67,7 @@
 			<artifactId>powermock-module-junit4</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.groboutils</groupId>
-			<artifactId>groboutils-core</artifactId>
-			<classifier>core</classifier>
-			<scope>compile</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
