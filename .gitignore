@@ -1,0 +1,17 @@
+*.iml
+.idea
+.DS_Store
+target
+*.class
+*.pmd
+target/
+*.iml
+.idea/
+target/
+logs/
+dist/
+.classpath
+.project
+.settings/
+.amateras
+/target*
