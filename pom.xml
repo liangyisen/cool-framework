@@ -43,7 +43,7 @@
 
 		<!-- middleware -->
 		<dubbo.version>2.8.4</dubbo.version>
-		<rocketmq.version>4.2.0</rocketmq.version>
+		<rocketmq.version>4.3.0</rocketmq.version>
 		<jedis.version>2.9.0</jedis.version>
 		<redisson.version>2.11.5</redisson.version>
 		<spring-data-redis.version>1.8.8.RELEASE</spring-data-redis.version>
